@@ -1,0 +1,19 @@
+AURA TECHNOLOGIES INC. - HR POLICY MANUAL
+DOCUMENT REF: POL-2026-ATT-001
+SUBJECT: TIME, ATTENDANCE, AND PUNCTUALITY POLICY
+EFFECTIVE DATE: JANUARY 1, 2026
+
+1. PURPOSE & SCOPE
+This policy outlines expectations regarding employee work hours, attendance tracking, tardiness, and unscheduled absences. Applicable to all full-time, part-time, and contract personnel at Aura Technologies Inc.
+
+2. CORE WORKING HOURS
+Standard business operations run from 09:00 AM to 06:00 PM local time. Core collaborative hours are 10:00 AM to 04:00 PM. Employees are expected to log into company systems or be physically present during core hours.
+
+3. ATTENDANCE TRACKING & LOGGING
+- Non-exempt employees must record clock-in and clock-out times via the HRIS portal (AuraHR) daily.
+- Falsification of time records, including logging hours for a colleague ("buddy punching"), is grounds for immediate termination.
+
+4. TARDINESS & UNSCHEDULED ABSENCES
+- Unplanned absence or tardiness exceeding 15 minutes must be reported to the direct manager and HR via email or Slack by 08:30 AM on the day of occurrence.
+- Three (3) unexcused tardies within a 30-day window will result in a formal verbal warning.
+- Five (5) consecutive days of unexcused absence without communication constitutes job abandonment and voluntary resignation.

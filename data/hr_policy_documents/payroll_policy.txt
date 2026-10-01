@@ -1,0 +1,13 @@
+AURA TECHNOLOGIES INC. - HR POLICY MANUAL
+DOCUMENT REF: POL-2026-PAY-007
+SUBJECT: PAYROLL DISTRIBUTION, OVERTIME & COMMISSIONS
+EFFECTIVE DATE: JANUARY 1, 2026
+
+1. PAY SCHEDULE
+Salaries are paid semi-monthly on the 15th and last business day of each month via direct deposit.
+
+2. OVERTIME COMPLIANCE
+Non-exempt employees working beyond 40 hours per week are eligible for 1.5x overtime pay. All overtime must be pre-approved in writing by the department manager.
+
+3. SALES COMMISSION INCENTIVES
+Commissions are calculated on closed-won revenue confirmed in Salesforce by 11:59 PM on the last calendar day of the month and paid in the subsequent month's payroll cycle.

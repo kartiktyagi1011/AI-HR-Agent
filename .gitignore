@@ -1,0 +1,5 @@
+venv/
+__pycache__/
+*.pyc
+data/hr_agent.db
+.env

@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI HR Agent</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background: #f4f6fa;
+            color: #172033;
+        }
+
+        /* ==============================
+           LAYOUT
+        ============================== */
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ==============================
+           SIDEBAR
+        ============================== */
+
+        .sidebar {
+            width: 245px;
+            background: #172033;
+            color: white;
+            padding: 25px 18px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: #4f46e5;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .logo h2 {
+            font-size: 18px;
+        }
+
+        .logo p {
+            font-size: 11px;
+            color: #98a2b3;
+            margin-top: 2px;
+        }
+
+        .nav-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #98a2b3;
+            margin: 20px 10px 10px;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 13px;
+            border-radius: 9px;
+            color: #d0d5dd;
+            margin-bottom: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #29344d;
+            color: white;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+        }
+
+        .system-status {
+            padding: 12px;
+            background: #202b42;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #d0d5dd;
+        }
+
+        .online-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #12b76a;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        /* ==============================
+           MAIN
+        ============================== */
+
+        .main {
+            margin-left: 245px;
+            width: calc(100% - 245px);
+            padding: 30px 35px 50px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .topbar h1 {
+            font-size: 27px;
+            color: #172033;
+            margin-bottom: 5px;
+        }
+
+        .topbar p {
+            color: #667085;
+            font-size: 14px;
+        }
+
+        .top-status {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 9px;
+            border: 1px solid #eaecf0;
+            font-size: 13px;
+        }
+
+        /* ==============================
+           STAT CARDS
+        ============================== */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #eaecf0;
+            border-radius: 13px;
+            padding: 19px;
+            box-shadow: 0 2px 7px rgba(16, 24, 40, 0.04);
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-title {
+            color: #667085;
+            font-size: 13px;
+        }
+
+        .stat-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef2ff;
+        }
+
+        .stat-number {
+            font-size: 26px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        /* ==============================
+           CARDS
+        ============================== */
+
+        .card {
+            background: white;
+            border: 1px solid #eaecf0;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 2px 7px rgba(16, 24, 40, 0.04);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 650;
+            margin-bottom: 5px;
+        }
+
+        .card-subtitle {
+            font-size: 13px;
+            color: #667085;
+            margin-bottom: 18px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 22px;
+        }
+
+        /* ==============================
+           FORMS
+        ============================== */
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #344054;
+            margin-bottom: 6px;
+        }
+
+        textarea,
+        input,
+        select {
+            width: 100%;
+            border: 1px solid #d0d5dd;
+            border-radius: 9px;
+            padding: 11px 12px;
+            font-family: inherit;
+            font-size: 14px;
+            color: #172033;
+            background: white;
+            margin-bottom: 13px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 105px;
+        }
+
+        textarea:focus,
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 11px 17px;
+            background: #4f46e5;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #4338ca;
+        }
+
+        .refresh {
+            background: #f2f4f7;
+            color: #344054;
+            border: 1px solid #d0d5dd;
+        }
+
+        .refresh:hover {
+            background: #eaecf0;
+        }
+
+        /* ==============================
+           POLICY RESULT
+        ============================== */
+
+        .result-container {
+            margin-top: 18px;
+        }
+
+        .answer-box {
+            background: #f8f9ff;
+            border: 1px solid #dfe3ff;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .answer-label {
+            color: #4f46e5;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: .6px;
+            margin-bottom: 7px;
+        }
+
+        .answer {
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .source-box {
+            margin-top: 12px;
+            border: 1px solid #eaecf0;
+            border-radius: 9px;
+            padding: 12px;
+            background: #fafafa;
+        }
+
+        .source-title {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .source-detail {
+            font-size: 12px;
+            color: #667085;
+            margin-top: 3px;
+        }
+
+        /* ==============================
+           GRIEVANCE RESULT
+        ============================== */
+
+        .classification {
+            margin-top: 18px;
+            border: 1px solid #eaecf0;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .classification-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #667085;
+            margin-bottom: 12px;
+        }
+
+        .classification-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 0;
+            border-bottom: 1px solid #f2f4f7;
+            font-size: 13px;
+        }
+
+        .classification-row:last-child {
+            border-bottom: none;
+        }
+
+        .classification-label {
+            color: #667085;
+        }
+
+        .classification-value {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* ==============================
+           BADGES
+        ============================== */
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .high {
+            background: #fee4e2;
+            color: #b42318;
+        }
+
+        .critical {
+            background: #fecdca;
+            color: #912018;
+        }
+
+        .medium {
+            background: #fef0c7;
+            color: #b54708;
+        }
+
+        .low {
+            background: #dcfae6;
+            color: #027a48;
+        }
+
+        .open {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .progress {
+            background: #fef0c7;
+            color: #b54708;
+        }
+
+        .resolved {
+            background: #dcfae6;
+            color: #027a48;
+        }
+
+        /* ==============================
+           DASHBOARD
+        ============================== */
+
+        .dashboard {
+            margin-top: 22px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .filter-btn {
+            background: #f9fafb;
+            color: #475467;
+            border: 1px solid #eaecf0;
+            padding: 7px 12px;
+            font-size: 12px;
+        }
+
+        .filter-btn.active {
+            background: #eef2ff;
+            color: #4338ca;
+            border-color: #c7d2fe;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background: #f9fafb;
+            color: #667085;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eaecf0;
+        }
+
+        td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #f2f4f7;
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: #fafbff;
+        }
+
+        .description-cell {
+            max-width: 300px;
+            line-height: 1.4;
+        }
+
+        /* ==============================
+           LOADING / ERROR
+        ============================== */
+
+        .loading {
+            margin-top: 14px;
+            color: #667085;
+            font-size: 13px;
+        }
+
+        .error {
+            margin-top: 14px;
+            padding: 11px;
+            background: #fef3f2;
+            color: #b42318;
+            border: 1px solid #fecdca;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #667085;
+            font-size: 14px;
+        }
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media(max-width: 950px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .logo-text,
+            .nav-item span,
+            .nav-title,
+            .system-status {
+                display: none;
+            }
+
+            .logo {
+                justify-content: center;
+            }
+
+            .nav-item {
+                justify-content: center;
+            }
+
+            .main {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+                padding: 25px 18px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width: 700px) {
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+        }
+
+        @media(max-width: 500px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🤖
+            </div>
+
+            <div class="logo-text">
+                <h2>AI HR Agent</h2>
+                <p>HR Intelligence Platform</p>
+            </div>
+
+        </div>
+
+
+        <div class="nav-title">
+            Workspace
+        </div>
+
+        <div class="nav-item active">
+            <span>▦</span>
+            <span>Dashboard</span>
+        </div>
+
+        <div class="nav-item" onclick="scrollToSection('policyCard')">
+            <span>📚</span>
+            <span>HR Policies</span>
+        </div>
+
+        <div class="nav-item" onclick="scrollToSection('grievanceCard')">
+            <span>⚠</span>
+            <span>Grievances</span>
+        </div>
+
+        <div class="nav-item" onclick="scrollToSection('dashboardCard')">
+            <span>📊</span>
+            <span>Reports</span>
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+
+                <span class="online-dot"></span>
+
+                AI Services Online
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>
+                    HR Intelligence Dashboard
+                </h1>
+
+                <p>
+                    AI-powered policy assistance and grievance management
+                </p>
+
+            </div>
+
+            <div class="top-status">
+
+                <span class="online-dot"></span>
+
+                System Operational
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             STATISTICS
+        ========================================== -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        Policy Documents
+                    </span>
+
+                    <div class="stat-icon">
+                        📚
+                    </div>
+
+                </div>
+
+                <div class="stat-number">
+                    8
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        Total Grievances
+                    </span>
+
+                    <div class="stat-icon">
+                        ⚠️
+                    </div>
+
+                </div>
+
+                <div class="stat-number" id="totalCount">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        Open Cases
+                    </span>
+
+                    <div class="stat-icon">
+                        🔵
+                    </div>
+
+                </div>
+
+                <div class="stat-number" id="openCount">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-title">
+                        Resolved
+                    </span>
+
+                    <div class="stat-icon">
+                        ✅
+                    </div>
+
+                </div>
+
+                <div class="stat-number" id="resolvedCount">
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             POLICY + GRIEVANCE
+        ========================================== -->
+
+        <div class="feature-grid">
+
+
+            <!-- POLICY -->
+
+            <section class="card" id="policyCard">
+
+                <div class="card-title">
+                    🤖 Ask HR Policy
+                </div>
+
+                <div class="card-subtitle">
+                    Ask questions about company policies using the AI-powered
+                    policy retrieval system.
+                </div>
+
+
+                <label>
+                    Your Question
+                </label>
+
+                <textarea
+                    id="question"
+                    placeholder="Example: How many days of paid time off can a full-time employee take?"
+                ></textarea>
+
+
+                <button onclick="askPolicy()">
+                    🔍 Ask HR Policy
+                </button>
+
+
+                <div id="policyResult"></div>
+
+            </section>
+
+
+            <!-- GRIEVANCE -->
+
+            <section class="card" id="grievanceCard">
+
+                <div class="card-title">
+                    ⚠ Submit Grievance
+                </div>
+
+                <div class="card-subtitle">
+                    Describe an HR concern and let the AI classify its
+                    category, severity and responsible department.
+                </div>
+
+
+                <label>
+                    Employee Name
+                </label>
+
+                <input
+                    id="employee"
+                    placeholder="Optional"
+                >
+
+
+                <label>
+                    Grievance Description
+                </label>
+
+                <textarea
+                    id="description"
+                    placeholder="Example: My salary has not been credited this month."
+                ></textarea>
+
+
+                <button onclick="submitGrievance()">
+                    ⚡ Classify & Submit
+                </button>
+
+
+                <div id="grievanceResult"></div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =========================================
+             GRIEVANCE DASHBOARD
+        ========================================== -->
+
+        <section
+            class="card dashboard"
+            id="dashboardCard"
+        >
+
+            <div class="dashboard-header">
+
+                <div>
+
+                    <div class="card-title">
+                        📊 Grievance Management
+                    </div>
+
+                    <div class="card-subtitle">
+                        Monitor and manage employee grievances
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-actions">
+
+                    <button
+                        class="refresh"
+                        onclick="loadGrievances()"
+                    >
+                        ↻ Refresh
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- FILTERS -->
+
+            <div class="filters">
+
+                <button
+                    class="filter-btn active"
+                    onclick="filterTable('All', this)"
+                >
+                    All
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterTable('Open', this)"
+                >
+                    Open
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterTable('In Progress', this)"
+                >
+                    In Progress
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterTable('Resolved', this)"
+                >
+                    Resolved
+                </button>
+
+            </div>
+
+
+            <div id="table"></div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+let allGrievances = [];
+let currentFilter = "All";
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHtml(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================
+   SEVERITY BADGE
+========================================= */
+
+function severityBadge(severity) {
+
+    if (!severity) {
+        return "-";
+    }
+
+    const value = severity.toLowerCase();
+
+    let className = "low";
+
+    if (value === "critical") {
+        className = "critical";
+    }
+
+    else if (value === "high") {
+        className = "high";
+    }
+
+    else if (value === "medium") {
+        className = "medium";
+    }
+
+    return `
+        <span class="badge ${className}">
+            ${escapeHtml(severity)}
+        </span>
+    `;
+}
+
+
+/* =========================================
+   STATUS BADGE
+========================================= */
+
+function statusBadge(status) {
+
+    if (!status) {
+        return "-";
+    }
+
+    let className = "open";
+
+    if (status === "In Progress") {
+        className = "progress";
+    }
+
+    else if (status === "Resolved") {
+        className = "resolved";
+    }
+
+    return `
+        <span class="badge ${className}">
+            ${escapeHtml(status)}
+        </span>
+    `;
+}
+
+
+/* =========================================
+   ASK POLICY
+========================================= */
+
+async function askPolicy() {
+
+    const question =
+        document.getElementById("question").value.trim();
+
+    const result =
+        document.getElementById("policyResult");
+
+
+    if (!question) {
+
+        result.innerHTML =
+            `<div class="error">
+                Please enter a policy question.
+            </div>`;
+
+        return;
+    }
+
+
+    result.innerHTML =
+        `<div class="loading">
+            🔍 Searching HR policy documents...
+        </div>`;
+
+
+    try {
+
+        const response = await fetch(
+            "/api/policy/ask",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    question: question
+                })
+            }
+        );
+
+
+        if (!response.ok) {
+            throw new Error("Policy request failed");
+        }
+
+
+        const data =
+            await response.json();
+
+
+        let html = `
+
+            <div class="result-container">
+
+                <div class="answer-box">
+
+                    <div class="answer-label">
+                        AI Policy Answer
+                    </div>
+
+                    <div class="answer">
+                        ${escapeHtml(data.answer || "No answer found.")}
+                    </div>
+
+                </div>
+        `;
+
+
+        if (
+            data.sources &&
+            data.sources.length > 0
+        ) {
+
+            html += `
+
+                <div class="source-box">
+
+                    <div class="source-title">
+                        📄 Policy Source
+                    </div>
+            `;
+
+
+            const source =
+                data.sources[0];
+
+
+            html += `
+
+                    <div class="source-detail">
+                        <strong>Document:</strong>
+                        ${escapeHtml(source.document)}
+                    </div>
+
+                    <div class="source-detail">
+                        <strong>Section:</strong>
+                        ${escapeHtml(source.section)}
+                    </div>
+
+                    <div class="source-detail">
+                        <strong>Relevance:</strong>
+                        ${escapeHtml(source.score)}
+                    </div>
+
+                </div>
+            `;
+        }
+
+
+        html += `</div>`;
+
+
+        result.innerHTML = html;
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        result.innerHTML =
+            `<div class="error">
+                Unable to retrieve the HR policy.
+                Please try again.
+            </div>`;
+    }
+}
+
+
+/* =========================================
+   SUBMIT GRIEVANCE
+========================================= */
+
+async function submitGrievance() {
+
+    const employee =
+        document.getElementById("employee").value.trim();
+
+    const description =
+        document.getElementById("description").value.trim();
+
+    const result =
+        document.getElementById("grievanceResult");
+
+
+    if (!description) {
+
+        result.innerHTML =
+            `<div class="error">
+                Please describe the grievance.
+            </div>`;
+
+        return;
+    }
+
+
+    result.innerHTML =
+        `<div class="loading">
+            ⚡ AI is analyzing the grievance...
+        </div>`;
+
+
+    try {
+
+        const response = await fetch(
+            "/api/grievances",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    employee_name:
+                        employee || "Anonymous",
+
+                    description:
+                        description
+                })
+            }
+        );
+
+
+        if (!response.ok) {
+            throw new Error("Grievance submission failed");
+        }
+
+
+        const data =
+            await response.json();
+
+
+        result.innerHTML = `
+
+            <div class="classification">
+
+                <div class="classification-title">
+                    AI Classification Result
+                </div>
+
+
+                <div class="classification-row">
+
+                    <span class="classification-label">
+                        Grievance ID
+                    </span>
+
+                    <span class="classification-value">
+                        ${escapeHtml(data.grievance_id || "-")}
+                    </span>
+
+                </div>
+
+
+                <div class="classification-row">
+
+                    <span class="classification-label">
+                        Category
+                    </span>
+
+                    <span class="classification-value">
+                        ${escapeHtml(data.category || "-")}
+                    </span>
+
+                </div>
+
+
+                <div class="classification-row">
+
+                    <span class="classification-label">
+                        Severity
+                    </span>
+
+                    <span class="classification-value">
+                        ${severityBadge(data.severity)}
+                    </span>
+
+                </div>
+
+
+                <div class="classification-row">
+
+                    <span class="classification-label">
+                        Department
+                    </span>
+
+                    <span class="classification-value">
+                        ${escapeHtml(data.department || "-")}
+                    </span>
+
+                </div>
+
+
+                <div class="classification-row">
+
+                    <span class="classification-label">
+                        Status
+                    </span>
+
+                    <span class="classification-value">
+                        ${statusBadge(data.status || "Open")}
+                    </span>
+
+                </div>
+
+            </div>
+        `;
+
+
+        document.getElementById("description").value = "";
+
+        loadGrievances();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        result.innerHTML =
+            `<div class="error">
+                Unable to submit grievance.
+                Please try again.
+            </div>`;
+    }
+}
+
+
+/* =========================================
+   LOAD GRIEVANCES
+========================================= */
+
+async function loadGrievances() {
+
+    const table =
+        document.getElementById("table");
+
+
+    table.innerHTML =
+        `<div class="loading">
+            Loading grievance records...
+        </div>`;
+
+
+    try {
+
+        const response =
+            await fetch("/api/grievances");
+
+
+        if (!response.ok) {
+            throw new Error("Unable to load grievances");
+        }
+
+
+        allGrievances =
+            await response.json();
+
+
+        updateStatistics();
+
+        renderTable();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        table.innerHTML =
+            `<div class="error">
+                Unable to load grievance records.
+            </div>`;
+    }
+}
+
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+function updateStatistics() {
+
+    const total =
+        allGrievances.length;
+
+
+    const open =
+        allGrievances.filter(
+            x => x.status === "Open"
+        ).length;
+
+
+    const resolved =
+        allGrievances.filter(
+            x => x.status === "Resolved"
+        ).length;
+
+
+    document.getElementById("totalCount").textContent =
+        total;
+
+
+    document.getElementById("openCount").textContent =
+        open;
+
+
+    document.getElementById("resolvedCount").textContent =
+        resolved;
+}
+
+
+/* =========================================
+   FILTER
+========================================= */
+
+function filterTable(filter, button) {
+
+    currentFilter = filter;
+
+
+    document
+        .querySelectorAll(".filter-btn")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+
+    button.classList.add("active");
+
+
+    renderTable();
+}
+
+
+/* =========================================
+   RENDER TABLE
+========================================= */
+
+function renderTable() {
+
+    const table =
+        document.getElementById("table");
+
+
+    let rows =
+        allGrievances;
+
+
+    if (currentFilter !== "All") {
+
+        rows =
+            allGrievances.filter(
+                x => x.status === currentFilter
+            );
+    }
+
+
+    if (!rows || rows.length === 0) {
+
+        table.innerHTML =
+            `<div class="empty">
+                No grievances found for this filter.
+            </div>`;
+
+        return;
+    }
+
+
+    let html = `
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Description</th>
+
+                        <th>Category</th>
+
+                        <th>Severity</th>
+
+                        <th>Department</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+    `;
+
+
+    rows.forEach(x => {
+
+        html += `
+
+            <tr>
+
+                <td>
+                    <strong>
+                        ${escapeHtml(x.grievance_id)}
+                    </strong>
+                </td>
+
+
+                <td class="description-cell">
+                    ${escapeHtml(x.description)}
+                </td>
+
+
+                <td>
+                    ${escapeHtml(x.category)}
+                </td>
+
+
+                <td>
+                    ${severityBadge(x.severity)}
+                </td>
+
+
+                <td>
+                    ${escapeHtml(x.department)}
+                </td>
+
+
+                <td>
+
+                    <select
+                        onchange="setStatus(
+                            '${escapeHtml(x.grievance_id)}',
+                            this.value
+                        )"
+                    >
+
+                        <option
+                            value="Open"
+                            ${x.status === "Open" ? "selected" : ""}
+                        >
+                            Open
+                        </option>
+
+
+                        <option
+                            value="In Progress"
+                            ${x.status === "In Progress" ? "selected" : ""}
+                        >
+                            In Progress
+                        </option>
+
+
+                        <option
+                            value="Resolved"
+                            ${x.status === "Resolved" ? "selected" : ""}
+                        >
+                            Resolved
+                        </option>
+
+                    </select>
+
+                </td>
+
+            </tr>
+        `;
+    });
+
+
+    html += `
+
+                </tbody>
+
+            </table>
+
+        </div>
+    `;
+
+
+    table.innerHTML = html;
+}
+
+
+/* =========================================
+   UPDATE STATUS
+========================================= */
+
+async function setStatus(id, status) {
+
+    try {
+
+        const response = await fetch(
+            "/api/grievances/" + id + "/status",
+            {
+                method: "PATCH",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    status: status
+                })
+            }
+        );
+
+
+        if (!response.ok) {
+            throw new Error("Status update failed");
+        }
+
+
+        await loadGrievances();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to update grievance status."
+        );
+    }
+}
+
+
+/* =========================================
+   SIDEBAR NAVIGATION
+========================================= */
+
+function scrollToSection(id) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (element) {
+
+        element.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+}
+
+
+/* =========================================
+   INITIAL LOAD
+========================================= */
+
+loadGrievances();
+
+</script>
+
+</body>
+
+</html>

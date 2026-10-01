@@ -1,0 +1,9 @@
+faq_id,category,question,answer,policy_link
+FAQ-001,Attendance,What happens if I miss clocking in on AuraHR?,"You must submit a manual time-card adjustment request via AuraHR within 24 hours, subject to approval by your line manager.",POL-2026-ATT-001
+FAQ-002,Leave,Can I roll over more than 5 days of PTO?,No. PTO rollover is capped strictly at 5 business days. Any additional unused PTO is forfeited on December 31 unless mandated otherwise by local labor laws.,POL-2026-LEV-002
+FAQ-003,Remote Work,Can I work from abroad while visiting family?,"International remote work requires prior written approval from HR, Legal, and Tax Compliance at least 30 days in advance and is limited to 14 days maximum per year.",POL-2026-WFH-003
+FAQ-004,Expenses,What is the per diem meal limit for official business travel?,The maximum reimbursable per diem for meals is $75/day. Itemized receipts are mandatory for any individual meal expense exceeding $25.,POL-2026-EXP-004
+FAQ-005,IT & Security,Am I allowed to use personal cloud storage for work files?,"No. Storing corporate data or customer PII on personal Google Drive, Dropbox, or external drives is a direct violation of IT security policies.",POL-2026-IT-005
+FAQ-006,Performance,How long does a Performance Improvement Plan (PIP) last?,Standard PIP duration is 60 calendar days with mandatory weekly evaluation check-ins with your direct manager and HR.,POL-2026-PRF-006
+FAQ-007,Payroll,When are quarterly sales commissions paid out?,Commissions earned on closed deals in a given month are processed and disbursed in the following month's regular mid-month payroll cycle.,POL-2026-PAY-007
+FAQ-008,Resignation,How much notice must a Senior Specialist give before resigning?,Individual contributor specialists must provide 2 weeks written notice; senior management roles require 4 weeks notice.,POL-2026-RSG-008

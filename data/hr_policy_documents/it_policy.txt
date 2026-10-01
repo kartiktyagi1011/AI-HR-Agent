@@ -1,0 +1,13 @@
+AURA TECHNOLOGIES INC. - HR POLICY MANUAL
+DOCUMENT REF: POL-2026-IT-005
+SUBJECT: ACCEPTABLE USE OF IT ASSETS & DATA SECURITY
+EFFECTIVE DATE: JANUARY 1, 2026
+
+1. PROPRIETARY DEVICES & SOFTWARE
+Company-issued laptops, mobiles, and software licenses are exclusively for corporate business. Installation of unauthorized third-party executable files or unvetted AI tools (e.g., public LLMs with company code) is prohibited.
+
+2. CONFIDENTIAL DATA HANDLING
+Customer PII, source code, and strategic financial plans must never be stored on personal cloud storage accounts (e.g., personal Google Drive, Dropbox).
+
+3. INCIDENT REPORTING
+Any lost hardware or suspected security breach/phishing incident must be reported to security@auratech.com within 2 hours.
